@@ -1,0 +1,77 @@
+val rdd = sc.parallelize(Array(1,2,3,4,5,6,7,8,9,10)
+
+rdd.getNumPartitions
+
+rdd.first()
+
+rdd.collect()
+
+val data = List(1, 2, 3, 4, 5)
+val rdd = sc.parallelize(data)
+
+val rdd = spark.sparkContext.textFile("fruits.txt")
+rdd.foreach(f=>{
+    println(f)
+})
+
+val rddWhole = spark.sparkContext.wholeTextFiles("C:/tmp/files/*")
+  rddWhole.foreach(f=>{
+    println(f._1+"=>"+f._2)
+  })
+
+val rdd3 = spark.sparkContext.textFile("fruits.txt,mfruits.txt")
+  rdd3.foreach(f=>{
+    println(f)
+  })
+  
+val rdd5 = spark.sparkContext.textFile("results.csv")
+  val rdd6 = rdd5.map(f=>{
+    f.split(",")
+  })
+
+  rdd6.foreach(f => {
+    println("Col1:"+f(0)+",Col2:"+f(1))
+  })
+
+val rdd=spark.sparkContext.parallelize(Seq(("Java", 20000), 
+  ("Python", 100000), ("Scala", 3000)))
+rdd.foreach(println)
+
+
+val spark:SparkSession = SparkSession.builder()
+    .master("local[3]")
+    .appName("mitu.co.in")
+    .getOrCreate()
+val rdd = spark.sparkContext.emptyRDD // creates EmptyRDD[0]
+val rddString = spark.sparkContext.emptyRDD[String] // creates EmptyRDD[1]
+println(rdd)
+println(rddString)
+println("Num of Partitions: "+rdd.getNumPartitions) 
+
+rdd.saveAsTextFile("test.txt")
+
+val rdd2 = spark.sparkContext.parallelize(Seq.empty[String])
+  println(rdd2)
+  println("Num of Partitions: "+rdd2.getNumPartitions)
+  
+val emptyRDD = sc.parallelize(Seq(""))
+
+import org.apache.spark.rdd.RDD  
+val rdd2 = rdd.flatMap(f=>f.split(" "))
+
+val rdd3:RDD[(String,Int)]= rdd2.map(m=>(m,1))
+
+val rdd4 = rdd3.filter(a=> a._1.startsWith("M"))
+
+val rdd5 = rdd3.reduceByKey(_ + _)
+
+rdd6.foreach(println)
+
+val rdd = spark.sparkContext.parallelize(
+      List("Germany India USA","USA India Russia","India Brazil Canada China"))
+      
+ val wordsRdd = rdd.flatMap(_.split(" "))
+ val pairRDD = wordsRdd.map(f=>(f,1))
+ pairRDD.foreach(println)
+ 
+pairRDD.distinct().foreach(println)
